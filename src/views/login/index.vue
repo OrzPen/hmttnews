@@ -28,6 +28,7 @@ export default {
       try {
         const data = await login(this.user)
         console.log(data)
+        this.$store.commit('setUser', data)
       } catch (error) {
         console.log(error)
       }
