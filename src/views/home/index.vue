@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import { getChannelsDefaultOrUser } from '../../api/channel'
 export default {
   name: 'HomeIndex',
   components: {},
@@ -28,8 +29,12 @@ export default {
       loading: false,
       finished: false,
       count: 0,
-      isLoading: false
+      isLoading: false,
+      channels: []
     }
+  },
+  created () {
+    this.loadChannels()
   },
   methods: {
     onRefresh () {
@@ -52,6 +57,11 @@ export default {
           this.finished = true
         }
       }, 500)
+    },
+    async loadChannels () {
+      const data = await getChannelsDefaultOrUser()
+      this.channels = data.channels
+      console.log(data)
     }
   }
 }
