@@ -2,7 +2,7 @@
   <div>
     <van-nav-bar title="首页" />
     <van-tabs v-model="activeChannelIndex" class="channel-tab">
-      <van-tab title="第1个">
+      <van-tab v-for="item in channels" :key="item.id" :title="item.name">
         <!-- 列表 -->
         <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
           <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
@@ -10,9 +10,6 @@
           </van-list>
         </van-pull-refresh>
       </van-tab>
-      <van-tab title="第2个"></van-tab>
-      <van-tab title="第3个"></van-tab>
-      <van-tab title="第4个"></van-tab>
     </van-tabs>
   </div>
 </template>
