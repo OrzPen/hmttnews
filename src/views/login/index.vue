@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import { login } from '@/api/user.js'
 export default {
   name: 'LoginIndex',
   data () {
@@ -25,12 +25,12 @@ export default {
   },
   methods: {
     async handleLogin () {
-      const data = await axios({
-        method: 'post',
-        url: 'http://ttapi.research.itcast.cn/app/v1_0/authorizations',
-        data: this.user
-      })
-      console.log(data)
+      try {
+        const data = await login(this.user)
+        console.log(data)
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 }
