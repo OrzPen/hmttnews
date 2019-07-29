@@ -58,7 +58,21 @@ export default {
 </script>
 
 <style lang='less' scoped>
-.channel-tabs {
+.van-nav-bar {
+    position: fixed;
+    width: 100%;
+    top: 0;
+}
+.channel-tab {
   margin-bottom: 100px;
+}
+.channel-tab /deep/ .van-tabs__wrap {
+  position: fixed;
+  width: 100%;
+  z-index: 99999;
+  top: 92px;
+}
+.channel-tab /deep/ .van-tabs__content {
+  margin-top: 184px;
 }
 </style>
