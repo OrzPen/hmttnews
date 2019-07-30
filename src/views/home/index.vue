@@ -6,7 +6,7 @@
         <!-- 列表 -->
         <van-pull-refresh v-model="item.downPullLoading" @refresh="onRefresh">
            <van-list v-model="item.upPullLoading" :finished="item.upPullFinished" finished-text="没有更多了" @load="onLoad">
-            <van-cell v-for="item in list" :key="item" :title="item" />
+            <van-cell v-for="item in item.articles" :key="item.art_id" :title="item.title" />
           </van-list>
         </van-pull-refresh>
       </van-tab>
@@ -59,21 +59,30 @@ export default {
       return data
     },
     async onLoad () {
-      const data = await this.loadArticle()
-      console.log(data)
-      // 异步更新数据
-      setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
-          this.list.push(this.list.length + 1)
-        }
-        // 加载状态结束
-        this.loading = false
-
-        // 数据全部加载完成
-        if (this.list.length >= 40) {
-          this.finished = true
-        }
-      }, 500)
+      await this.$sleep(800)
+      let data = []
+      data = await this.loadArticle() // 第一次onload->没数据 ->
+      // 如果没数据->配置时间戳
+      if (data.pre_timestamp && data.results.length === 0) {
+        // 把返回的历史时间戳赋值给当前激活频道的属性timestamp
+        this.activeChannel.timestamp = data.pre_timestamp // 默认没有 -> 历史时间戳1
+        data = await this.loadArticle()
+        // console.log(data)
+      }
+      // 处理加载完毕后的效果->
+      // 1. 停止加载中的的动画
+      // 2. 显示加载完毕
+      // 3. 跳出方法
+      if (!data.pre_timestamp && !data.results.length) {
+        this.activeChannel.upPullFinished = true
+        this.activeChannel.upPullLoading = false
+        return
+      }
+      // 更新时间戳
+      this.activeChannel.timestamp = data.pre_timestamp
+      this.activeChannel.articles.push(...data.results)
+      // 取消加载中的动画
+      this.activeChannel.upPullLoading = false
     },
     async loadChannels () {
       const user = this.user

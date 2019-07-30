@@ -8,6 +8,7 @@ import 'amfe-flexible/index.min.js'
 import './styles/index.less'
 import VeeValidate, { Validator } from 'vee-validate'
 import CN from 'vee-validate/dist/locale/zh_CN'
+
 Vue.use(VeeValidate)
 
 Validator.localize('zh_CN', CN)
@@ -20,6 +21,14 @@ Validator.extend('mobile', {
 })
 Vue.use(Vant)
 Vue.config.productionTip = false
+// 定时器
+Vue.prototype.$sleep = time => {
+  return new Promise(resolve => {
+    setInterval(() => {
+      resolve()
+    }, time)
+  })
+}
 
 new Vue({
   router,
