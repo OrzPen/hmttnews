@@ -4,8 +4,8 @@
     <van-tabs v-model="activeChannelIndex" class="channel-tab">
       <van-tab v-for="item in channels" :key="item.id" :title="item.name">
         <!-- 列表 -->
-        <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
-          <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+        <van-pull-refresh v-model="item.downPullLoading" @refresh="onRefresh">
+           <van-list v-model="item.upPullLoading" :finished="item.upPullFinished" finished-text="没有更多了" @load="onLoad">
             <van-cell v-for="item in list" :key="item" :title="item" />
           </van-list>
         </van-pull-refresh>
@@ -16,6 +16,7 @@
 
 <script>
 import { getChannelsDefaultOrUser } from '../../api/channel'
+import { getArticle } from '@/api/article.js'
 import { mapState } from 'vuex'
 export default {
   name: 'HomeIndex',
@@ -35,7 +36,10 @@ export default {
     this.loadChannels()
   },
   computed: {
-    ...mapState(['user'])
+    ...mapState(['user']),
+    activeChannel () {
+      return this.channels[this.activeChannelIndex]
+    }
   },
   methods: {
     onRefresh () {
@@ -44,7 +48,19 @@ export default {
         this.isLoading = false
       }, 500)
     },
-    onLoad () {
+    // 获取当前激活频道的数据
+    async loadArticle () {
+      const { id: channelid, timestamp } = this.activeChannel // {id:1,name:'',timestamp}
+      const data = await getArticle({
+        channel_id: channelid,
+        timestamp,
+        with_top: 1
+      })
+      return data
+    },
+    async onLoad () {
+      const data = await this.loadArticle()
+      console.log(data)
       // 异步更新数据
       setTimeout(() => {
         for (let i = 0; i < 10; i++) {
@@ -70,6 +86,13 @@ export default {
       // 如果没登录并且没有本地数据,发送axios请求后台数据,或者已登录直接发送axios请求后台数据
       if ((!user && !lsChannels) || user) {
         const data = await getChannelsDefaultOrUser()
+        data.channels.forEach(item => {
+          item.articles = [] // 用来保存每个频道item自己的文章列表数据
+          item.downPullLoading = false // 当前频道下拉状态
+          item.upPullLoading = false // 当前频道上拉加载更多
+          item.upPullFinished = false // 当前频道加载完毕
+          item.timestamp = Date.now() // 用来保存每个频道item自己的文章列表数据对应的时间戳
+        })
         this.channels = data.channels
       }
       // const data = await getChannelsDefaultOrUser()
