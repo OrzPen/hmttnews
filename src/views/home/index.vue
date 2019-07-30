@@ -16,6 +16,7 @@
 
 <script>
 import { getChannelsDefaultOrUser } from '../../api/channel'
+import { mapState } from 'vuex'
 export default {
   name: 'HomeIndex',
   components: {},
@@ -32,6 +33,9 @@ export default {
   },
   created () {
     this.loadChannels()
+  },
+  computed: {
+    ...mapState(['user'])
   },
   methods: {
     onRefresh () {
@@ -56,9 +60,21 @@ export default {
       }, 500)
     },
     async loadChannels () {
-      const data = await getChannelsDefaultOrUser()
-      this.channels = data.channels
-      console.log(data)
+      const user = this.user
+      const lsChannels = JSON.parse(window.localStorage.getItem('channels'))
+
+      // 如果没登录 并且本地储存中有数据,把本地数据赋值给频道列表
+      if (!user && lsChannels) {
+        this.channels = lsChannels
+      }
+      // 如果没登录并且没有本地数据,发送axios请求后台数据,或者已登录直接发送axios请求后台数据
+      if ((!user && !lsChannels) || user) {
+        const data = await getChannelsDefaultOrUser()
+        this.channels = data.channels
+      }
+      // const data = await getChannelsDefaultOrUser()
+      // this.channels = data.channels
+      // console.log(data)
     }
   }
 }
