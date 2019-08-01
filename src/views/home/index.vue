@@ -11,7 +11,8 @@
                 <template v-show="item.cover.type">
                   <van-grid :border="false" :column-num="3">
                     <van-grid-item v-for="(item,index) in item.cover.images" :key="index">
-                      <van-image :src="item" />
+                      <!-- 使用lazyload插件,添加lazy-load属性 -->
+                      <van-image :src="item"  lazy-load/>
                     </van-grid-item>
                   </van-grid>
                 </template>

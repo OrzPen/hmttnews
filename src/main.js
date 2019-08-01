@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import Vant from 'vant'
+import Vant, { Lazyload } from 'vant'
 import 'vant/lib/index.css'
 import 'amfe-flexible/index.min.js'
 import './styles/index.less'
@@ -10,7 +10,8 @@ import VeeValidate, { Validator } from 'vee-validate'
 import CN from 'vee-validate/dist/locale/zh_CN'
 
 Vue.use(VeeValidate)
-
+// 加载lazyload懒加载插件
+Vue.use(Lazyload)
 Validator.localize('zh_CN', CN)
 
 // 自定义规则
