@@ -2,6 +2,9 @@
   <div>
     <van-nav-bar title="首页" />
     <van-tabs v-model="activeChannelIndex" class="channel-tab">
+      <div slot='nav-right' class="wap-nav" @click="showChannelManager">
+        <van-icon name="wap-nav"></van-icon>
+      </div>
       <van-tab v-for="item in channels" :key="item.id" :title="item.name">
         <!-- 列表 -->
         <van-pull-refresh :success-text="item.successRefreshText" v-model="item.downPullLoading" @refresh="onRefresh">
@@ -86,6 +89,10 @@ export default {
     }
   },
   methods: {
+    // 展示频道管理组件
+    showChannelManager () {
+      this.isShowChannel = true
+    },
     // 控制更多弹窗开关
     showMoreActionDia (currentArticle) {
       this.currentArticle = currentArticle
@@ -211,5 +218,10 @@ export default {
 .channel-tab /deep/ .close {
   float: right;
   font-size: 30px;
+}
+// 频道列表按钮样式
+.channel-tab /deep/ .wap-nav {
+  position: fixed;
+  right: 0px;
 }
 </style>
