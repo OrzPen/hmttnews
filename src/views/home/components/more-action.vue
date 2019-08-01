@@ -4,6 +4,7 @@
       <van-cell icon="location-o" title="不感兴趣" @click="handleUnlikeArticle()" />
       <van-cell icon="location-o" title="反馈垃圾内容" is-link @click="isReport=true" />
       <van-cell icon="location-o" title="拉黑作者" />
+      <!-- {{this.currentArticle}} -->
     </van-cell-group>
 
     <van-cell-group v-else>
@@ -21,6 +22,11 @@ export default {
     value: {
       type: Boolean,
       default: false
+    },
+    // 接收当前选中文章
+    currentArticle: {
+      type: Object,
+      default: () => {}
     }
   },
   data () {

@@ -25,7 +25,8 @@
                   &nbsp;
                   <span>时间:{{item.pubdate | relTime}}</span>
                   &nbsp;
-                  <van-icon class="close" name="cross" @click="showMoreActionDia()"></van-icon>
+                  <!-- 传入item获取当前选中文章 -->
+                  <van-icon class="close" name="cross" @click="showMoreActionDia(item)"></van-icon>
                 </p>
               </div>
             </van-cell>
@@ -33,7 +34,8 @@
         </van-pull-refresh>
       </van-tab>
     </van-tabs>
-    <more-action v-model="isShowMore"></more-action>
+    <!-- :currentArticle把当前选中文章列表通过父传子传到子组件中 -->
+    <more-action :currentArticle="currentArticle" v-model="isShowMore"></more-action>
   </div>
 </template>
 
@@ -57,7 +59,9 @@ export default {
       count: 0,
       isLoading: false,
       channels: [],
-      isShowMore: false
+      isShowMore: false,
+      // 选中的文章列表数据
+      currentArticle: null
     }
   },
   created () {
@@ -82,7 +86,8 @@ export default {
   },
   methods: {
     // 控制更多弹窗开关
-    showMoreActionDia () {
+    showMoreActionDia (currentArticle) {
+      this.currentArticle = currentArticle
       this.isShowMore = true
     },
     onRefresh () {
