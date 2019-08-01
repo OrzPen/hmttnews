@@ -162,26 +162,29 @@ export default {
       this.activeChannel.upPullLoading = false
     },
     async loadChannels () {
+      // 统一保存数据
+      let channels = []
       const user = this.user
       const lsChannels = JSON.parse(window.localStorage.getItem('channels'))
 
       // 如果没登录 并且本地储存中有数据,把本地数据赋值给频道列表
       if (!user && lsChannels) {
-        this.channels = lsChannels
+        channels = lsChannels
       }
       // 如果没登录并且没有本地数据,发送axios请求后台数据,或者已登录直接发送axios请求后台数据
       if ((!user && !lsChannels) || user) {
         const data = await getChannelsDefaultOrUser()
-        data.channels.forEach(item => {
-          item.articles = [] // 用来保存每个频道item自己的文章列表数据
-          item.downPullLoading = false // 当前频道下拉状态
-          item.upPullLoading = false // 当前频道上拉加载更多
-          item.upPullFinished = false // 当前频道加载完毕
-          item.timestamp = Date.now() // 用来保存每个频道item自己的文章列表数据对应的时间戳
-          item.successRefreshText = '' // 下拉成功的文本提示
-        })
-        this.channels = data.channels
+        channels = data.channels
       }
+      channels.forEach(item => {
+        item.articles = [] // 用来保存每个频道item自己的文章列表数据
+        item.downPullLoading = false // 当前频道下拉状态
+        item.upPullLoading = false // 当前频道上拉加载更多
+        item.upPullFinished = false // 当前频道加载完毕
+        item.timestamp = Date.now() // 用来保存每个频道item自己的文章列表数据对应的时间戳
+        item.successRefreshText = '' // 下拉成功的文本提示
+      })
+      this.channels = channels
       // const data = await getChannelsDefaultOrUser()
       // this.channels = data.channels
       // console.log(data)

@@ -43,7 +43,8 @@
 </template>
 
 <script>
-import { getAllChannels } from '@/api/channel.js'
+import { getAllChannels, resetUserChannels } from '@/api/channel.js'
+import { mapState } from 'vuex'
 export default {
   name: 'HomeChannel',
   props: {
@@ -93,21 +94,32 @@ export default {
       return this.allChannels.filter((item, index) => {
         return !ids.includes(item.id)
       })
-    }
+    },
+    ...mapState(['user'])
   },
   created () {
     this.loadAllChannels()
   },
   methods: {
     // 添加频道
-    handleAddChannel (item, index) {
+    async handleAddChannel (item, index) {
       // 添加频道的核心代码
       this.channels.push(item)
       // 如果用户登录
-      if (user) {
+      if (this.user) {
+        // 接口问题
+        const channels = this.channels.slice(1).map((item, index) => {
+          return {
+            id: item.id,
+            seq: index + 2
+          }
+        })
         // 发送请求
+        await resetUserChannels(channels)
+        // console.log(res)
       } else {
         // 本地ls中加频道
+        window.localStorage.setItem('channels', JSON.stringify(this.channels))
       }
     },
     async loadAllChannels () {

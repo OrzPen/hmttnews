@@ -13,3 +13,24 @@ export const getAllChannels = () => {
     url: `/app/v1_0/channels`
   })
 }
+
+/*
+ * 批量修改用户频道列表（重置式）
+ * ├─ id,integer必须频道id
+ * ├─ seq,integer必须顺序序号 10
+ *          seq顺序序号-> 从2开始 -> 接口设计人员的反馈
+ *
+ * channels->[{id:?,seq:?}]
+ *
+ * 重置频道-> '推荐'的频道 不需要放在数组里
+ *
+ */
+export const resetUserChannels = channels => {
+  return $ajax({
+    method: 'put',
+    url: `/app/v1_0/user/channels`,
+    data: {
+      channels: channels
+    }
+  })
+}
