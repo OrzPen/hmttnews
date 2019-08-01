@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { dislikesArticle } from '@/api/article.js'
+import { dislikesArticle, reportArticle } from '@/api/article.js'
 export default {
   name: 'MoreAction',
   props: {
@@ -50,6 +50,7 @@ export default {
     }
   },
   methods: {
+    // 不感兴趣功能
     async handleUnlikeArticle () {
       // 从父组件传来的当前点击的文章列表中取出id
       const { art_id: articleId } = this.currentArticle
@@ -66,6 +67,34 @@ export default {
         // 展开打印错误信息
         console.dir(error)
         this.$toast('操作失败')
+      }
+    },
+    // 举报功能
+
+    async handleClickReport (item, index) {
+      // 从父组件传来的当前点击的文章列表中取出id
+      const { art_id: articleId } = this.currentArticle
+      try {
+        // console.log(index);
+        await reportArticle({ articleId, type: item.value })
+        // 通过父组件请求发送成功->子传父
+        this.$emit('report-success')
+        // 关闭对话框
+        this.$emit('input', false)
+        // 提示操作成功->使用vant组件库的提示框
+        this.$toast('举报成功')
+        //
+      } catch (error) {
+        // console.dir(error)
+        if (error.response.status === 409) {
+          // 关闭对话框
+          this.$emit('input', false)
+          this.$toast('已举报过')
+        } else {
+          // 关闭对话框
+          this.$emit('input', false)
+          this.$toast('举报失败')
+        }
       }
     }
   }
