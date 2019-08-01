@@ -40,6 +40,8 @@
     <!-- :currentArticle把当前选中文章列表通过父传子传到子组件中 -->
     <!-- dislike-success子组件传值父组件,通过该属性更新视图 -->
     <more-action :currentArticle="currentArticle" @dislike-success="handleDislikeSuccess" v-model="isShowMore"></more-action>
+    <!-- 频道管理组件 -->
+    <channel :channels="channels" :activeChannelIndex="activeChannelIndex" v-model="isShowChannel"></channel>
   </div>
 </template>
 
@@ -48,11 +50,13 @@ import { getChannelsDefaultOrUser } from '../../api/channel'
 import { getArticle } from '@/api/article.js'
 import { mapState } from 'vuex'
 import MoreAction from './components/more-action.vue'
+import Channel from './components/channel.vue'
 export default {
   name: 'HomeIndex',
   // 子路由组件
   components: {
-    MoreAction
+    MoreAction,
+    Channel
   },
   data () {
     return {
@@ -64,6 +68,8 @@ export default {
       isLoading: false,
       channels: [],
       isShowMore: false,
+      // 频道列表显示隐藏
+      isShowChannel: false,
       // 选中的文章列表数据
       currentArticle: null
     }
