@@ -4,7 +4,7 @@
     <van-tabs v-model="activeChannelIndex" class="channel-tab">
       <van-tab v-for="item in channels" :key="item.id" :title="item.name">
         <!-- 列表 -->
-        <van-pull-refresh v-model="item.downPullLoading" @refresh="onRefresh">
+        <van-pull-refresh :success-text="item.successRefreshText" v-model="item.downPullLoading" @refresh="onRefresh">
            <van-list v-model="item.upPullLoading" :finished="item.upPullFinished" finished-text="没有更多了" @load="onLoad">
              <!-- 加.toString()处理id后key绑定的需要是字符串的问题 -->
             <van-cell v-for="item in item.articles" :key="item.art_id.toString()" :title="item.title" >
@@ -91,11 +91,26 @@ export default {
       this.currentArticle = currentArticle
       this.isShowMore = true
     },
-    onRefresh () {
-      setTimeout(() => {
-        this.$toast('刷新成功')
-        this.isLoading = false
-      }, 500)
+    async onRefresh () {
+      // 睡眠时间
+      await this.$sleep(800)
+      // 获取最新时间戳
+      this.activeChannel.timestamp = Date.now()
+      // 发送请求
+      const data = await this.loadArticle()
+      // data=> results  pre_time
+      // 如果有最新数据
+      if (data.results.length) {
+        // 重置数据
+        this.activeChannel.articles = data.results
+        // 更新时间戳
+        this.activeChannel.timestamp = data.pre_timestamp
+        this.activeChannel.successRefreshText = '更新成功'
+      } else {
+        this.activeChannel.successRefreshText = '已是最新数据'
+      }
+      // 关闭动画
+      this.activeChannel.downPullLoading = false
     },
     // 获取当前激活频道的数据
     async loadArticle () {
@@ -150,6 +165,7 @@ export default {
           item.upPullLoading = false // 当前频道上拉加载更多
           item.upPullFinished = false // 当前频道加载完毕
           item.timestamp = Date.now() // 用来保存每个频道item自己的文章列表数据对应的时间戳
+          item.successRefreshText = '' // 下拉成功的文本提示
         })
         this.channels = data.channels
       }
