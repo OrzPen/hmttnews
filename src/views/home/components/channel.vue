@@ -32,7 +32,7 @@
         </div>
       </div>
       <van-grid class="channel-content" :gutter="10" clickable>
-        <van-grid-item v-for="(item,index) in allChannels" :key="item.id" text="文字" @click="handleAddChannel(item,index)">
+        <van-grid-item v-for="(item,index) in restChannels" :key="item.id" text="文字" @click="handleAddChannel(item,index)">
           <div class="info">
             <span class="text">{{item.name}}</span>
           </div>
@@ -63,6 +63,36 @@ export default {
   data () {
     return {
       allChannels: []
+    }
+  },
+  computed: {
+    restChannels () {
+      // 从allChannels从筛选出非channels数据
+      // 取出channels数组的每个元素id
+      // 1. map能遍历
+      // 2. 传cb
+      // 3. cb的形参代表每个元素
+      // 4. map 会把return的内容保存为新数组中进行返回
+      const ids = this.channels.map((item, index) => {
+        return item.id
+      })
+      // console.log(ids)
+      // 1. filter能遍历
+      // 2. 传cb
+      // 3. cb的形参1是每个元素
+      // 4. filter筛选符合条件的元素 return bool
+      // 5. filter return 是所有符合条件的元素所在的数组
+      // const restChannels = this.allChannels.filter((item, index) => {
+      // includes
+      // 1. 数组实例方法
+      // 2. 判断数组a是否包含b
+      // 3. return bool
+      // return !ids.includes(item.id)
+      // })
+      // console.log(restChannels)
+      return this.allChannels.filter((item, index) => {
+        return !ids.includes(item.id)
+      })
     }
   },
   created () {
