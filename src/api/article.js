@@ -12,3 +12,16 @@ export const getArticle = (data) => {
     params: data
   })
 }
+
+// 对文章不喜欢封装
+// 参数为不喜欢的文章的ID
+// 后台当前不喜欢的文章ID
+export const dislikesArticle = articleId => {
+  return request({
+    method: 'POST',
+    url: `/app/v1_0/article/dislikes`,
+    data: {
+      target: articleId
+    }
+  })
+}
