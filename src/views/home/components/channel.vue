@@ -99,6 +99,17 @@ export default {
     this.loadAllChannels()
   },
   methods: {
+    // 添加频道
+    handleAddChannel (item, index) {
+      // 添加频道的核心代码
+      this.channels.push(item)
+      // 如果用户登录
+      if (user) {
+        // 发送请求
+      } else {
+        // 本地ls中加频道
+      }
+    },
     async loadAllChannels () {
       const data = await getAllChannels()
       // 和之前的用户频道一样,添加对应的数据->此时,还没有使用这些数据
