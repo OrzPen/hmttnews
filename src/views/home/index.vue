@@ -24,6 +24,7 @@
                   &nbsp;
                   <span>时间:{{item.pubdate | relTime}}</span>
                   &nbsp;
+                  <van-icon class="close" name="cross" @click="showMoreActionDia()"></van-icon>
                 </p>
               </div>
             </van-cell>
@@ -31,6 +32,7 @@
         </van-pull-refresh>
       </van-tab>
     </van-tabs>
+    <more-action v-model="isShowMore"></more-action>
   </div>
 </template>
 
@@ -38,9 +40,13 @@
 import { getChannelsDefaultOrUser } from '../../api/channel'
 import { getArticle } from '@/api/article.js'
 import { mapState } from 'vuex'
+import MoreAction from './components/more-action.vue'
 export default {
   name: 'HomeIndex',
-  components: {},
+  // 子路由组件
+  components: {
+    MoreAction
+  },
   data () {
     return {
       activeChannelIndex: 0,
@@ -49,7 +55,8 @@ export default {
       finished: false,
       count: 0,
       isLoading: false,
-      channels: []
+      channels: [],
+      isShowMore: false
     }
   },
   created () {
@@ -73,6 +80,10 @@ export default {
     }
   },
   methods: {
+    // 控制更多弹窗开关
+    showMoreActionDia () {
+      this.isShowMore = true
+    },
     onRefresh () {
       setTimeout(() => {
         this.$toast('刷新成功')
@@ -155,10 +166,14 @@ export default {
 .channel-tab /deep/ .van-tabs__wrap {
   position: fixed;
   width: 100%;
-  z-index: 99999;
+  z-index: 1;
   top: 92px;
 }
 .channel-tab /deep/ .van-tabs__content {
   margin-top: 184px;
+}
+.channel-tab /deep/ .close {
+  float: right;
+  font-size: 30px;
 }
 </style>
