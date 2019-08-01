@@ -1,10 +1,11 @@
 <template>
   <van-popup
-  :value="value"
-  @input="$emit('input',$event)"
-  position="bottom"
-  :style="{ height: '95%' }"
+    :value="value"
+    @input="$emit('input',$event)"
+    position="bottom"
+    :style="{ height: '95%' }"
   >
+    <!-- 我的频道 -->
     <div class="channel">
       <div class="channel-head">
         <div>
@@ -12,24 +13,17 @@
           <span class="desc">点击进入频道</span>
         </div>
         <div>
-          <van-button
-            type="danger"
-            plain
-            size="mini"
-          >编辑</van-button>
+          <van-button type="danger" plain size="mini">编辑</van-button>
         </div>
       </div>
       <van-grid class="channel-content" :gutter="10" clickable>
-        <van-grid-item
-          v-for="value in 8"
-          :key="value"
-          text="文字">
-          <span class="text">文字</span>
+        <van-grid-item v-for="(item, index) in channels" :key="item.id" text="文字">
+          <span slot="text" class="text" :class="{active:index===activeChannelIndex}">{{item.name}}</span>
           <!-- <van-icon class="close-icon" name="close" /> -->
         </van-grid-item>
       </van-grid>
     </div>
-
+    <!-- 推荐频道 -->
     <div class="channel">
       <div class="channel-head">
         <div>
@@ -38,10 +32,7 @@
         </div>
       </div>
       <van-grid class="channel-content" :gutter="10" clickable>
-        <van-grid-item
-          v-for="value in 8"
-          :key="value"
-          text="文字">
+        <van-grid-item v-for="value in 8" :key="value" text="文字">
           <div class="info">
             <span class="text">文字</span>
           </div>
@@ -58,6 +49,14 @@ export default {
     value: {
       type: Boolean,
       default: false
+    },
+    channels: {
+      type: Array,
+      default: () => []
+    },
+    activeChannelIndex: {
+      type: Number,
+      default: 0
     }
   },
   data () {
@@ -79,8 +78,6 @@ export default {
     }
     .desc {
       font-size: 12px;
-    }
-    .action {
     }
   }
   .channel-content {
