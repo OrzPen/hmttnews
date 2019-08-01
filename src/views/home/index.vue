@@ -6,7 +6,8 @@
         <!-- 列表 -->
         <van-pull-refresh v-model="item.downPullLoading" @refresh="onRefresh">
            <van-list v-model="item.upPullLoading" :finished="item.upPullFinished" finished-text="没有更多了" @load="onLoad">
-            <van-cell v-for="item in item.articles" :key="item.art_id" :title="item.title" >
+             <!-- 加.toString()处理id后key绑定的需要是字符串的问题 -->
+            <van-cell v-for="item in item.articles" :key="item.art_id.toString()" :title="item.title" >
               <div slot="label">
                 <template v-show="item.cover.type">
                   <van-grid :border="false" :column-num="3">

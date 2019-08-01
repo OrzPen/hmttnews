@@ -1,10 +1,18 @@
 import axios from 'axios'
 // 导入store仓库
 import store from '@/store.js'
+import JSONBig from 'json-bigint'
 const $ajax = axios.create({
   baseURL: 'http://ttapi.research.itcast.cn'
 })
-
+// 处理art_id超出js最大安全数的问题
+$ajax.defaults.transformResponse = [function (data) {
+  try {
+    return JSONBig.parse(data)
+  } catch (error) {
+    return data
+  }
+}]
 $ajax.interceptors.request.use(function (config) {
   // 解构出仓库中保存token的变量
   const { user } = store.state
