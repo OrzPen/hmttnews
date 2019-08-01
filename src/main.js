@@ -8,6 +8,12 @@ import 'amfe-flexible/index.min.js'
 import './styles/index.less'
 import VeeValidate, { Validator } from 'vee-validate'
 import CN from 'vee-validate/dist/locale/zh_CN'
+// 时间处理
+import dayjs from 'dayjs'
+import relaviveTime from 'dayjs/plugin/relativeTime'
+import 'dayjs/locale/zh-cn'
+dayjs.locale('zh-cn')
+dayjs.extend(relaviveTime)
 
 Vue.use(VeeValidate)
 // 加载lazyload懒加载插件
@@ -30,7 +36,6 @@ Vue.prototype.$sleep = time => {
     }, time)
   })
 }
-
 new Vue({
   router,
   store,
