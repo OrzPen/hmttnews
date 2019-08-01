@@ -41,7 +41,7 @@
     <!-- dislike-success子组件传值父组件,通过该属性更新视图 -->
     <more-action :currentArticle="currentArticle" @dislike-success="handleDislikeSuccess" v-model="isShowMore"></more-action>
     <!-- 频道管理组件 -->
-    <channel :channels="channels" :activeChannelIndex="activeChannelIndex" v-model="isShowChannel"></channel>
+    <channel :channels="channels" :activeChannelIndex="activeChannelIndex" v-model="isShowChannel" @update:active-index="activeChannelIndex=$event"></channel>
   </div>
 </template>
 

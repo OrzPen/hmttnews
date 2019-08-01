@@ -13,11 +13,11 @@
           <span class="desc">点击进入频道</span>
         </div>
         <div>
-          <van-button type="danger" plain size="mini">编辑</van-button>
+          <van-button type="danger" plain size="mini" @click="isEdit=true">{{!isEdit?'编辑':'完成'}}</van-button>
         </div>
       </div>
       <van-grid class="channel-content" :gutter="10" clickable>
-        <van-grid-item v-for="(item, index) in channels" :key="item.id" text="文字">
+        <van-grid-item v-for="(item, index) in channels" :key="item.id" text="文字" @click="handleClickChannel(item,index)">
           <span slot="text" class="text" :class="{active:index===activeChannelIndex}">{{item.name}}</span>
           <!-- <van-icon class="close-icon" name="close" /> -->
         </van-grid-item>
@@ -63,7 +63,8 @@ export default {
   },
   data () {
     return {
-      allChannels: []
+      allChannels: [],
+      isEdit: false
     }
   },
   computed: {
@@ -101,6 +102,28 @@ export default {
     this.loadAllChannels()
   },
   methods: {
+    // 进入||编辑频道
+    handleClickChannel (item, index) {
+      if (!this.isEdit) {
+        // 进入频道
+        this.changeChannel(item, index)
+      } else {
+        // 删除频道
+        this.deleChannel(item, index)
+      }
+    },
+    // 进入
+    changeChannel (item, index) {
+      console.log('进入频道')
+      // 修改父组件的激活频道index
+      this.$emit('update:active-index', index)
+      // 关闭对话框
+      this.$emit('input', false)
+    },
+    // 删除
+    deleChannel (item, index) {
+      console.log('删除频道')
+    },
     // 添加频道
     async handleAddChannel (item, index) {
       // 添加频道的核心代码
