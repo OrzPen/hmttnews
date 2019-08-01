@@ -36,6 +36,10 @@ Vue.prototype.$sleep = time => {
     }, time)
   })
 }
+// 注册全局过滤器
+Vue.filter('relTime', (val) => {
+  return dayjs().from(dayjs(val))
+})
 new Vue({
   router,
   store,

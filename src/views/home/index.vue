@@ -22,7 +22,7 @@
                   &nbsp;
                   <span>评论 :{{item.comm_count}}</span>
                   &nbsp;
-                  <span>时间:{{item.pubdate}}</span>
+                  <span>时间:{{item.pubdate | relTime}}</span>
                   &nbsp;
                 </p>
               </div>
