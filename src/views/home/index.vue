@@ -6,7 +6,26 @@
         <!-- 列表 -->
         <van-pull-refresh v-model="item.downPullLoading" @refresh="onRefresh">
            <van-list v-model="item.upPullLoading" :finished="item.upPullFinished" finished-text="没有更多了" @load="onLoad">
-            <van-cell v-for="item in item.articles" :key="item.art_id" :title="item.title" />
+            <van-cell v-for="item in item.articles" :key="item.art_id" :title="item.title" >
+              <div slot="label">
+                <template v-show="item.cover.type">
+                  <van-grid :border="false" :column-num="3">
+                    <van-grid-item v-for="(item,index) in item.cover.images" :key="index">
+                      <van-image :src="item" />
+                    </van-grid-item>
+                  </van-grid>
+                </template>
+
+                <p>
+                  <span>作者:{{item.aut_name}}</span>
+                  &nbsp;
+                  <span>评论 :{{item.comm_count}}</span>
+                  &nbsp;
+                  <span>时间:{{item.pubdate}}</span>
+                  &nbsp;
+                </p>
+              </div>
+            </van-cell>
           </van-list>
         </van-pull-refresh>
       </van-tab>
