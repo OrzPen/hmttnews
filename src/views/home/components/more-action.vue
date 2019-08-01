@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import { dislikesArticle } from '@/api/article.js'
 export default {
   name: 'MoreAction',
   props: {
@@ -46,6 +47,26 @@ export default {
         { title: '涉嫌违法犯罪', value: 7 },
         { title: '侵权', value: 8 }
       ]
+    }
+  },
+  methods: {
+    async handleUnlikeArticle () {
+      // 从父组件传来的当前点击的文章列表中取出id
+      const { art_id: articleId } = this.currentArticle
+      try {
+        // 发送ajax请求向后台发送不感兴趣请求,请求返回不喜欢文章的id,此处不需要使用
+        await dislikesArticle(articleId)
+        // 告诉父组件已成功添加不感兴趣
+        this.$emit('dislike-success')
+        // 关闭对话框
+        this.$emit('input', false)
+        // 提示操作成功->使用vant组件库的提示框
+        this.$toast('操作成功')
+      } catch (error) {
+        // 展开打印错误信息
+        console.dir(error)
+        this.$toast('操作失败')
+      }
     }
   }
 }

@@ -35,7 +35,8 @@
       </van-tab>
     </van-tabs>
     <!-- :currentArticle把当前选中文章列表通过父传子传到子组件中 -->
-    <more-action :currentArticle="currentArticle" v-model="isShowMore"></more-action>
+    <!-- dislike-success子组件传值父组件,通过该属性更新视图 -->
+    <more-action :currentArticle="currentArticle" @dislike-success="handleDislikeSuccess" v-model="isShowMore"></more-action>
   </div>
 </template>
 
@@ -155,6 +156,19 @@ export default {
       // const data = await getChannelsDefaultOrUser()
       // this.channels = data.channels
       // console.log(data)
+    },
+    // 父组件接收子组件的数据更新视图
+    handleDislikeSuccess () {
+      // findIndex
+      // 1. 数组实例的方法
+      // 2. 能遍历
+      // 3. findIndex(形参) -> 形参是cb -> cb的形参是每个元素
+      // 4. findIndex() return的布尔条件
+      // 5. 作用 findIndex返回符合条件的该元素的索引
+      const index = this.activeChannel.articles.findIndex(item => {
+        return item === this.currentArticle
+      })
+      this.activeChannel.articles.splice(index, 1)
     }
   }
 }
