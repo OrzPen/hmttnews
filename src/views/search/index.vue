@@ -3,7 +3,9 @@
   <van-search v-model="searchText" placeholder="请输入搜索关键词" show-action @search="onSearch" @cancel="onCancel" />
   <!-- 联想建议 -->
   <van-cell-group>
-    <van-cell v-for="(item, index) in suggestData" :key="index" :title="item" icon="search" />
+    <van-cell v-for="(item, index) in suggestData" :key="index" icon="search" >
+        <span slot="title" v-html="highLight(item, searchText)"></span>
+    </van-cell>
   </van-cell-group>
 </div>
 
@@ -43,6 +45,13 @@ export default {
     }, 800)
   },
   methods: {
+    // 关键字高亮
+    highLight (cell, keywords) {
+      return cell
+        .toLowerCase()
+        .split(keywords)
+        .join(`<span style="color:red">${keywords}</span>`)
+    },
     onSearch () {
       console.log('onSearch--')
     },
