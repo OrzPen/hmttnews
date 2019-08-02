@@ -18,8 +18,10 @@
       </div>
       <van-grid class="channel-content" :gutter="10" clickable>
         <van-grid-item v-for="(item, index) in channels" :key="item.id" text="文字" @click="handleClickChannel(item,index)">
-          <span slot="text" class="text" :class="{active:index===activeChannelIndex}">{{item.name}}</span>
-          <!-- <van-icon class="close-icon" name="close" /> -->
+          <!-- 如果是编辑状态不显示高亮样式 -->
+          <span class="text" :class="{active:index===activeChannelIndex && !isEdit}">{{item.name}}</span>
+          <!-- 判断按钮状态,如果是编辑状态显示删除图标并且排除掉第一个推荐 -->
+          <van-icon v-show="isEdit===true && index!==0" class="close-icon" name="close" />
         </van-grid-item>
       </van-grid>
     </div>
@@ -124,6 +126,15 @@ export default {
     // 删除
     deleChannel (item, index) {
       console.log('删除频道')
+      // 推荐按钮后台默认不允许删除所以在这里把第一项的删除方法排除
+      this.channels.splice(index, 1)
+      // 如果用户登录
+      if (this.user) {
+        // 发送请求删除频道
+      } else {
+        // 未登录状态本地删除频道
+        window.localStorage.setItem('channels', JSON.stringify(this.channels))
+      }
     },
     // 添加频道
     async handleAddChannel (item, index) {

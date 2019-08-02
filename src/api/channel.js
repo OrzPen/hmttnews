@@ -34,3 +34,11 @@ export const resetUserChannels = channels => {
     }
   })
 }
+
+// 删除频道接口  参数:target 用户频道ID
+export const deleChannelById = channelId => {
+  return $ajax({
+    method: 'DELETE',
+    url: `/app/v1_0/user/channels/${channelId}`
+  })
+}
