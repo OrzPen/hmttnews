@@ -12,6 +12,7 @@
 
 <script>
 import { getSuggestion } from '@/api/search.js'
+import { debounce } from '@/utils/debounce.js'
 export default {
   name: 'SearchIndex',
   data () {
@@ -24,9 +25,12 @@ export default {
   },
   watch: {
     // 当输入框的关键字发生改变时发送请求,所以用watch监测后发送请求
-    async searchText (newVal) {
+    // 加入防抖功能
+    searchText: debounce(async function (newVal) {
       // 如果输入框没有文字时不发送请求
       if (!newVal.length) {
+        // 清空联想建议数据终止代码
+        this.suggestData = []
         return false
       }
       try {
@@ -36,7 +40,7 @@ export default {
       } catch (error) {
         console.dir(error)
       }
-    }
+    }, 800)
   },
   methods: {
     onSearch () {
