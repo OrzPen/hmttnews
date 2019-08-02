@@ -58,7 +58,12 @@ export default {
     onSearch (text) {
       console.log('onSearch--', text)
       // 跳转到搜索结果列表并将关键字传过去
-      this.$router.push(`/search-result/:${text}`)
+      this.$router.push({
+        name: 'search-result',
+        params: {
+          queryText: text
+        }
+      })
     },
     onCancel () {
       console.log('onCancel--')
