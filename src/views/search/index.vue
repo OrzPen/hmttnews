@@ -1,9 +1,10 @@
 <template>
 <div>
-  <van-search v-model="searchText" placeholder="请输入搜索关键词" show-action @search="onSearch" @cancel="onCancel" />
+  <van-search v-model="searchText" placeholder="请输入搜索关键词" show-action @search="onSearch(searchText)" @cancel="onCancel" />
   <!-- 联想建议 -->
   <van-cell-group>
-    <van-cell v-for="(item, index) in suggestData" :key="index" icon="search" >
+    <!-- 给搜索框添加搜索框同一个同一个事件 -->
+    <van-cell v-for="(item, index) in suggestData" :key="index" icon="search" @click="onSearch(item)" >
         <span slot="title" v-html="highLight(item, searchText)"></span>
     </van-cell>
   </van-cell-group>
@@ -52,8 +53,12 @@ export default {
         .split(keywords)
         .join(`<span style="color:red">${keywords}</span>`)
     },
-    onSearch () {
-      console.log('onSearch--')
+    // 获取搜索结果
+    // 点词条或回车触发
+    onSearch (text) {
+      console.log('onSearch--', text)
+      // 跳转到搜索结果列表并将关键字传过去
+      this.$router.push(`/search-result/:${text}`)
     },
     onCancel () {
       console.log('onCancel--')

@@ -1,10 +1,12 @@
 <template>
-    <div></div>
+    <div>
+        {{$route.params.queryText}}
+    </div>
 </template>
 
 <script>
 export default {
-
+  name: 'SearchResult'
 }
 </script>
 
