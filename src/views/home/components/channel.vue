@@ -13,7 +13,7 @@
           <span class="desc">点击进入频道</span>
         </div>
         <div>
-          <van-button type="danger" plain size="mini" @click="isEdit=true">{{!isEdit?'编辑':'完成'}}</van-button>
+          <van-button type="danger" plain size="mini" @click="isEdit=!isEdit">{{!isEdit?'编辑':'完成'}}</van-button>
         </div>
       </div>
       <van-grid class="channel-content" :gutter="10" clickable>
@@ -64,6 +64,7 @@ export default {
   data () {
     return {
       allChannels: [],
+      // 控制编辑完成按钮状态
       isEdit: false
     }
   },
