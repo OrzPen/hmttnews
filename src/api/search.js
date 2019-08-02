@@ -11,3 +11,16 @@ export const getSuggestion = q => {
     }
   })
 }
+
+// 封装搜索结果列表请求
+export const getSearch = ({ page, perpage, q }) => {
+  return $ajax({
+    method: 'get',
+    url: `/app/v1_0/search`,
+    params: {
+      page,
+      per_page: perpage,
+      q
+    }
+  })
+}
