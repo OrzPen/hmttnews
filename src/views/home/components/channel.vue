@@ -47,6 +47,7 @@
 <script>
 import { getAllChannels, resetUserChannels } from '@/api/channel.js'
 import { mapState } from 'vuex'
+import { deleChannelById } from '../../../api/channel'
 export default {
   name: 'HomeChannel',
   props: {
@@ -124,13 +125,14 @@ export default {
       this.$emit('input', false)
     },
     // 删除
-    deleChannel (item, index) {
+    async deleChannel (item, index) {
       console.log('删除频道')
       // 推荐按钮后台默认不允许删除所以在这里把第一项的删除方法排除
       this.channels.splice(index, 1)
       // 如果用户登录
       if (this.user) {
         // 发送请求删除频道
+        await deleChannelById(item.id)
       } else {
         // 未登录状态本地删除频道
         window.localStorage.setItem('channels', JSON.stringify(this.channels))
