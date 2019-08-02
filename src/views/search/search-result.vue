@@ -8,7 +8,7 @@
       finished-text="没有更多了"
       @load="onLoad"
     >
-      <van-cell v-for="item in list" :key="item" :title="item" />
+      <van-cell v-for="item in searchData" :key="item.art_id" :title="item.title" />
     </van-list>
   </div>
 </template>
@@ -37,20 +37,16 @@ export default {
     }
   },
   methods: {
-    onLoad () {
-      // 异步更新数据
-      setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
-          this.list.push(this.list.length + 1)
-        }
-        // 加载状态结束
+    async onLoad () {
+      await this.$sleep(800)
+      const data = await this.loadSearch()
+      // 追加数据
+      // 有数据
+      if (data.results) {
+        this.searchData.push(...data.results)
         this.loading = false
-
-        // 数据全部加载完成
-        if (this.list.length >= 40) {
-          this.finished = true
-        }
-      }, 500)
+      }
+      this.page++
     },
     async loadSearch () {
       const data = await getSearch({
