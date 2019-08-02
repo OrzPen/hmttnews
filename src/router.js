@@ -20,6 +20,13 @@ export default new Router({
     name: 'login',
     component: () =>
         import('@/views/login')
+  },
+  // 搜索组件路由配置
+  {
+    path: '/search',
+    name: 'search',
+    component: () =>
+        import('@/views/search')
   }
   ]
 })
