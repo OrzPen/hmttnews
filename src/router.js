@@ -27,6 +27,13 @@ export default new Router({
     name: 'search',
     component: () =>
         import('@/views/search')
+  },
+  // 显示搜索结果组件
+  {
+    name: 'search-result',
+    path: '/search-result/:queryText',
+    component: () =>
+        import('@/views/search/search-result.vue')
   }
   ]
 })
