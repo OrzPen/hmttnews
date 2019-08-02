@@ -27,6 +27,10 @@ export default {
       finished: false
     }
   },
+  // 使用生命周期狗子函数销毁组件
+  deactivated () {
+    this.$destroy()
+  },
   created () {
     this.loadSearch()
     // console.log(this.$route.params.queryText)
@@ -54,7 +58,7 @@ export default {
         per_page: this.per_page,
         q: this.q
       })
-      console.log(data)
+      //   console.log(data)
 
       return data
     }
