@@ -1,7 +1,7 @@
 <template>
   <div>
     <van-nav-bar title="首页" />
-    <van-tabs v-model="activeChannelIndex" class="channel-tab">
+    <van-tabs :lazy-render="false" @change="handleChangeTab" v-model="activeChannelIndex" class="channel-tab">
       <div slot='nav-right' class="wap-nav" @click="showChannelManager">
         <van-icon name="wap-nav"></van-icon>
       </div>
@@ -20,7 +20,6 @@
                     </van-grid-item>
                   </van-grid>
                 </template>
-
                 <p>
                   <span>作者:{{item.aut_name}}</span>
                   &nbsp;
@@ -41,7 +40,7 @@
     <!-- dislike-success子组件传值父组件,通过该属性更新视图 -->
     <more-action :currentArticle="currentArticle" @dislike-success="handleDislikeSuccess" v-model="isShowMore"></more-action>
     <!-- 频道管理组件 -->
-    <channel :channels="channels" :activeChannelIndex="activeChannelIndex" v-model="isShowChannel" @update:active-index="activeChannelIndex=$event"></channel>
+    <channel @delete-success="handleDeleSuccess" :channels="channels" :activeChannelIndex="activeChannelIndex" v-model="isShowChannel" @update:active-index="activeChannelIndex=$event"></channel>
   </div>
 </template>
 
@@ -75,7 +74,9 @@ export default {
     }
   },
   created () {
+    console.log('created')
     this.loadChannels()
+    console.log('over')
   },
   // 检测用户登录状态的变化,当变化时重新加载频道列表
   watch: {
@@ -95,6 +96,19 @@ export default {
     }
   },
   methods: {
+    // 子组件事件触发更新频道数据
+    handleDeleSuccess () {
+      // 如果此时列表中没有文章数据
+      if (!this.activeChannel.articles.length) {
+        // 手动更新数据
+        this.activeChannel.upPullLoading = true
+        this.onLoad()
+      }
+    },
+    // 标签切换时触发的事件
+    handleChangeTab () {
+      this.onLoad()
+    },
     // 展示频道管理组件
     showChannelManager () {
       this.isShowChannel = true
@@ -136,7 +150,8 @@ export default {
       return data
     },
     async onLoad () {
-      await this.$sleep(800)
+      console.log('onload')
+      // await this.$sleep(800)
       let data = []
       data = await this.loadArticle() // 第一次onload->没数据 ->
       // 如果没数据->配置时间戳

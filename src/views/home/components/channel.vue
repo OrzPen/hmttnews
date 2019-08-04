@@ -129,6 +129,8 @@ export default {
       console.log('删除频道')
       // 推荐按钮后台默认不允许删除所以在这里把第一项的删除方法排除
       this.channels.splice(index, 1)
+      // 告诉父组件重新更新频道列表数据
+      this.$emit('delete-success')
       // 如果用户登录
       if (this.user) {
         // 发送请求删除频道
