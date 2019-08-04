@@ -109,6 +109,9 @@ export default {
     },
     onCancel () {
       console.log('onCancel--')
+      this.$router.push({
+        name: 'home'
+      })
     }
   }
 }

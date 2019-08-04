@@ -1,6 +1,6 @@
 <template>
   <div>
-    <van-nav-bar title="首页" />
+    <van-nav-bar title="首页" fixed @click.native="$router.push({name:'search'})"></van-nav-bar>
     <van-tabs :lazy-render="false" @change="handleChangeTab" v-model="activeChannelIndex" class="channel-tab">
       <div slot='nav-right' class="wap-nav" @click="showChannelManager">
         <van-icon name="wap-nav"></van-icon>
