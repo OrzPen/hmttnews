@@ -23,7 +23,7 @@
           <span @click="isDeleteData=false">完成</span>
         </div>
       </van-cell>
-      <van-cell title="hello111">
+      <van-cell v-for="(item,index) in searchHistories" :key="index" :title="item">
         <van-icon v-show="isDeleteData" slot="right-icon" name="close" style="line-height:inherit"></van-icon>
       </van-cell>
     </van-cell-group>
@@ -43,7 +43,9 @@ export default {
       // 联想建议数据
       suggestData: [],
       // 控制联想建议与历史记录的切换显示的数据
-      isDeleteData: false
+      isDeleteData: false,
+      // 从本地记录中取出数据渲染到历史记录中
+      searchHistories: JSON.parse(window.localStorage.getItem('search-histories')) || []
     }
   },
   watch: {
@@ -65,6 +67,9 @@ export default {
       }
     }, 800)
   },
+  deactivated () {
+    this.$destroy()
+  },
   methods: {
     // 关键字高亮
     highLight (cell, keywords) {
@@ -77,6 +82,23 @@ export default {
     // 点词条或回车触发
     onSearch (text) {
       console.log('onSearch--', text)
+      // 利用ES6 集合容器Set
+      // 1. Set是容器
+      // 2. Set是构造函数
+      // 3. Set函数的实参可以是数组
+      // 4. Set特点不会保存重复元素
+      // 5. Array.from()->把from的实参实例化为数组 ,返回数组
+      // 6. Set的实例方法 添加元素的方法add()
+      const setTemp = new Set(this.searchHistories)
+      // 向容器中添加元素
+      setTemp.add(text)
+      // 把容器中的内容转回成数组形式
+      this.searchHistories = Array.from(setTemp)
+      // 向本地储存中储存关键字的历史记录
+      window.localStorage.setItem(
+        'search-histories',
+        JSON.stringify(this.searchHistories)
+      )
       // 跳转到搜索结果列表并将关键字传过去
       this.$router.push({
         name: 'search-result',
