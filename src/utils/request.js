@@ -36,6 +36,7 @@ async function (error) {
     // 如果没有,跳转到登录页登录
     if (!store.state.user) {
       router.push('/login')
+      return
     } else {
       try {
         // 如果保存过,使用axios发送请求,重新获取token

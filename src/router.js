@@ -34,6 +34,12 @@ export default new Router({
     path: '/search-result/',
     component: () =>
         import('@/views/search/search-result.vue')
+  },
+  {
+    name: 'article',
+    path: '/article/:articleId',
+    component: () =>
+        import('@/views/article')
   }
   ]
 })

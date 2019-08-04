@@ -41,3 +41,11 @@ export const reportArticle = ({ articleId, type, remark = '' }) => {
     }
   })
 }
+
+// 文章详情
+export const getArticleByArtId = articleid => {
+  return request({
+    method: 'GET',
+    url: `/app/v1_0/articles/${articleid}`
+  })
+}
