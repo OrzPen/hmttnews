@@ -1,20 +1,20 @@
 <template>
   <div>
     <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-      <van-cell v-for="item in list" :key="item">
+      <van-cell v-for="(item,index) in comments" :key="index">
         <div slot="icon">
-          <img class="avatar" src="http://toutiao.meiduo.site/Fn6-mrb5zLTZIRG3yH3jG8HrURdU" alt="">
+          <img class="avatar" :src="item.aut_photo">
         </div>
         <div slot="title">
-          <span>只是为了好玩儿</span>
+          <span>{{item.aut_name}}</span>
         </div>
         <div slot="default">
           <van-button icon="like-o" size="mini" plain>赞</van-button>
         </div>
         <div slot="label">
-          <p>hello world</p>
+          <p>{{item.content}}</p>
           <p>
-            <span>2019-7-17 14:08:20</span>
+            <span>{{item.pubdate | relTime}}</span>
             ·
             <span>回复</span>
           </p>
@@ -25,6 +25,8 @@
 </template>
 
 <script>
+// 获取评论列表数据api
+import { getComments } from '@/api/comment.js'
 export default {
   name: 'CommentList',
   props: {},
@@ -32,26 +34,39 @@ export default {
     return {
       list: [],
       loading: false,
-      finished: false
+      finished: false,
+      comments: [],
+      offset: null
     }
   },
   created () {},
   methods: {
-    onLoad () {
+    async onLoad () {
       console.log('onLoad')
-      // 异步更新数据
-      setTimeout(() => {
-        for (let i = 0; i < 5; i++) {
-          this.list.push(this.list.length + 1)
-        }
-        // 加载状态结束
+      // 根据路由参数传过来的文章id发送请求获取评论列表数据
+      const articleid = this.$route.params.articleId
+      // console.log(articleid)
+      const data = await getComments({
+        articleid,
+        offset: this.offset
+      })
+      // 如果后台没有更多数据返回,停掉动画
+      if (!data.results.length) {
+        console.log('没数据')
         this.loading = false
-
-        // 数据全部加载完成
-        if (this.list.length >= 10) {
-          this.finished = true
-        }
-      }, 500)
+        this.finished = true
+        return
+      }
+      // 如果后台有数据返回
+      if (data.results.length) {
+        // 把10个数据 赋值给列表
+        this.comments.push(...data.results)
+        console.log(this.comments)
+        // 更新页码->这里叫偏移量offset
+        this.offset = data.last_id
+        // 关闭加载动画
+        this.loading = false
+      }
     }
   }
 }
