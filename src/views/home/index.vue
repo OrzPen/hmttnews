@@ -69,7 +69,7 @@ export default {
       isShowMore: false,
       // 频道列表显示隐藏
       isShowChannel: false,
-      // 选中的文章列表数据
+      // 6 选中的文章列表数据
       currentArticle: null
     }
   },

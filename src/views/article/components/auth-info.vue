@@ -8,7 +8,7 @@
       </div>
     </div>
     <div>
-      <van-button :type="article.is_followed ? 'default':'danger'" :loading="false">
+      <van-button :type="article.is_followed ? 'default':'danger'" :loading="isFollowLoading" @click="handleFollowUser">
         {{article.is_followed?'已关注':'关注'}}
       </van-button>
     </div>
@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import { followUser, unFollowUser } from '@/api/user.js'
 export default {
   name: 'AuthInfo',
   props: {
@@ -25,7 +26,24 @@ export default {
     }
   },
   data () {
-    return {}
+    return {
+      // 控制按钮在加载时的状态
+      isFollowLoading: false
+    }
+  },
+  methods: {
+    async handleFollowUser () {
+      this.isFollowLoading = true
+      // 关注
+      if (!this.article.is_followed) {
+        await followUser(this.article.aut_id)
+        this.isFollowLoading = false
+      } else {
+        // 取消关注
+        await unFollowUser(this.article.aut_id)
+        this.isFollowLoading = false
+      }
+    }
   }
 }
 </script>
