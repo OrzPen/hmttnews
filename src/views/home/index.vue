@@ -80,13 +80,17 @@ export default {
   },
   // 检测用户登录状态的变化,当变化时重新加载频道列表
   watch: {
-    user (newV, oldV) {
+    async user (newV, oldV) {
       // 重新发送请求获取频道列表数据
-      this.loadChannels()
+      await this.loadChannels()
       // 手动触发列表的布尔数据,否则会一直加载
+      console.log(123123)
+      console.log(this.activeChannel)
+      console.log(321)
       this.activeChannel.upPullLoading = true
       // 手动更新文章列表数据
       this.loadArticle()
+      // this.onload()
     }
   },
   computed: {
