@@ -13,6 +13,8 @@
       </div>
       <!-- 更多操作 -->
       <more-action></more-action>
+      <!-- 评论列表 -->
+      <comment-list></comment-list>
     </div>
   </div>
 </template>
@@ -20,13 +22,15 @@
 <script>
 import AuthInfo from './components/auth-info.vue'
 import MoreAction from './components/more-action.vue'
+import CommentList from './components/comment-list.vue'
 import { getArticleByArtId } from '@/api/article'
 
 export default {
   name: 'ArticleIndex',
   components: {
     AuthInfo,
-    MoreAction
+    MoreAction,
+    CommentList
   },
   data () {
     return {
