@@ -15,6 +15,8 @@
       <more-action></more-action>
       <!-- 评论列表 -->
       <comment-list></comment-list>
+      <!-- 回复组件 -->
+      <reply-list v-model="isShowReply"></reply-list>
     </div>
   </div>
 </template>
@@ -23,6 +25,7 @@
 import AuthInfo from './components/auth-info.vue'
 import MoreAction from './components/more-action.vue'
 import CommentList from './components/comment-list.vue'
+import ReplyList from './components/reply-list.vue'
 import { getArticleByArtId } from '@/api/article'
 
 export default {
@@ -30,11 +33,14 @@ export default {
   components: {
     AuthInfo,
     MoreAction,
-    CommentList
+    CommentList,
+    ReplyList
   },
   data () {
     return {
-      article: {}
+      article: {},
+      // 控制回复组件显示隐藏
+      isShowReply: true
     }
   },
   created () {
