@@ -14,7 +14,7 @@
       <!-- 更多操作 -->
       <more-action></more-action>
       <!-- 评论列表 -->
-      <comment-list></comment-list>
+      <comment-list :source="articleId"></comment-list>
       <!-- 回复组件 -->
       <reply-list v-model="isShowReply"></reply-list>
     </div>

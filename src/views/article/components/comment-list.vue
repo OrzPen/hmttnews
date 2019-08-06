@@ -30,7 +30,17 @@ import { getComments } from '@/api/comment.js'
 import vm from '@/utils/event-bus.js'
 export default {
   name: 'CommentList',
-  props: {},
+  props: {
+    source: {
+      type: [String, Number],
+      // default
+      required: true
+    },
+    isComment: {
+      type: Boolean,
+      default: true
+    }
+  },
   data () {
     return {
       list: [],
@@ -49,10 +59,12 @@ export default {
     async onLoad () {
       console.log('onLoad')
       // 根据路由参数传过来的文章id发送请求获取评论列表数据
-      const articleid = this.$route.params.articleId
+      // const articleid = this.$route.params.articleId
       // console.log(articleid)
+      console.log(this.source)
+      const source = this.source
       const data = await getComments({
-        articleid,
+        source,
         offset: this.offset
       })
       // 如果后台没有更多数据返回,停掉动画
