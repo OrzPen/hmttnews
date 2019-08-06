@@ -17,6 +17,8 @@
       <comment-list :source="articleId"></comment-list>
       <!-- 回复组件 -->
       <reply-list v-model="isShowReply"></reply-list>
+      <!-- 发布评论 -->
+      <add-comment class="add-comment" />
     </div>
   </div>
 </template>
@@ -26,6 +28,7 @@ import AuthInfo from './components/auth-info.vue'
 import MoreAction from './components/more-action.vue'
 import CommentList from './components/comment-list.vue'
 import ReplyList from './components/reply-list.vue'
+import AddComment from './components/add-comment.vue'
 import { getArticleByArtId } from '@/api/article'
 
 export default {
@@ -34,7 +37,8 @@ export default {
     AuthInfo,
     MoreAction,
     CommentList,
-    ReplyList
+    ReplyList,
+    AddComment
   },
   data () {
     return {
@@ -70,5 +74,10 @@ export default {
   .article-content {
     font-size: 20px;
   }
+  .add-comment {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+}
 }
 </style>
