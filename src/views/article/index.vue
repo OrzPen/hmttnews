@@ -18,7 +18,7 @@
       <!-- 回复组件 -->
       <reply-list v-model="isShowReply"></reply-list>
       <!-- 发布评论 -->
-      <add-comment class="add-comment" />
+      <add-comment class="add-comment" :target="articleId" />
     </div>
   </div>
 </template>

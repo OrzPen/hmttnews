@@ -11,6 +11,7 @@
 </template>
 
 <script>
+import { addComment } from '@/api/comment.js'
 export default {
   name: 'AddComment',
   data () {
@@ -18,9 +19,25 @@ export default {
       content: ''
     }
   },
-
+  props: {
+    target: {
+      type: [String, Number],
+      required: true
+    }
+  },
   methods: {
-    async handleAdd () {}
+    async handleAdd () {
+      try {
+        await addComment({
+          target: this.target,
+          content: this.content
+        })
+        this.$toast('发布评论成功')
+        this.content = ''
+      } catch (error) {
+        this.$toast.fail('操作失败')
+      }
+    }
   }
 }
 </script>
