@@ -44,3 +44,10 @@ export const getCurrentUserInfo = () => {
     url: `/app/v1_0/user`
   })
 }
+// 获取用户详细信息
+export const getCurrentUserProfile = () => {
+  return $ajax({
+    method: 'GET',
+    url: `/app/v1_0/user/profile`
+  })
+}

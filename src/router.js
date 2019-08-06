@@ -47,6 +47,12 @@ export default new Router({
     path: '/article/:articleId',
     component: () =>
         import('@/views/article')
+  },
+  {
+    name: 'user-profile',
+    path: '/user-profile',
+    component: () =>
+        import('@/views/mine/components/user-profile.vue')
   }
   ]
 })
