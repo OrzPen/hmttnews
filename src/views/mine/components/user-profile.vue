@@ -21,8 +21,7 @@
 </template>
 
 <script>
-import { getCurrentUserProfile } from '@/api/user'
-
+import { getCurrentUserProfile, updateUserProfile } from '@/api/user'
 export default {
   name: 'UserProfile',
   components: {
@@ -40,7 +39,9 @@ export default {
 
   methods: {
     async handleSave () {
-
+      await updateUserProfile({
+        name: '沈泰鹏到此一游'
+      })
     },
     async loadUserProfile () {
       try {
