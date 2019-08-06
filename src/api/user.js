@@ -36,3 +36,11 @@ export const unFollowUser = userId => {
     url: `/app/v1_0/user/followings/${userId}`
   })
 }
+
+// 获取用户基本信息
+export const getCurrentUserInfo = () => {
+  return $ajax({
+    method: 'GET',
+    url: `/app/v1_0/user`
+  })
+}
