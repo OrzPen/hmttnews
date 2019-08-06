@@ -65,7 +65,8 @@ export default {
       const source = this.source
       const data = await getComments({
         source,
-        offset: this.offset
+        offset: this.offset,
+        isComment: this.isComment
       })
       // 如果后台没有更多数据返回,停掉动画
       if (!data.results.length) {

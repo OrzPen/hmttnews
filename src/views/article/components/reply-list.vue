@@ -20,13 +20,19 @@
       </div>
     </van-cell>
     <hr>
+    <!-- 评论的回复列表 -->
+    <comment-list :source="commentTop.com_id.toString()" :isComment="false"></comment-list>
   </van-popup>
 </template>
 
 <script>
 import vm from '@/utils/event-bus.js'
+import CommentList from './comment-list.vue'
 export default {
   name: 'ReplyList',
+  components: {
+    CommentList
+  },
   props: {
     value: {
       type: Boolean,
@@ -49,7 +55,7 @@ export default {
       // 控制回复框显示隐藏
       isShow: false,
       commentTop: {
-
+        com_id: ''
       }
     }
   }
