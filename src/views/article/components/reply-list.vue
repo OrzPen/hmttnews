@@ -22,21 +22,28 @@
     <hr>
     <!-- 评论的回复列表 -->
     <comment-list :source="commentTop.com_id.toString()" :isComment="false"></comment-list>
+    <!-- 回复评论组件 -->
+    <add-comment class="add-comment" :target="commentTop.com_id.toString()" :artId="articleId"></add-comment>
   </van-popup>
 </template>
 
 <script>
 import vm from '@/utils/event-bus.js'
 import CommentList from './comment-list.vue'
+import AddComment from './add-comment.vue'
 export default {
   name: 'ReplyList',
   components: {
-    CommentList
+    CommentList,
+    AddComment
   },
   props: {
     value: {
       type: Boolean,
       default: false
+    },
+    articleId: {
+      type: [String, Number]
     }
   },
   created () {
@@ -46,10 +53,6 @@ export default {
       this.isShow = true
     })
   },
-  // 避免缓存问题,销毁组件
-  deactivated () {
-    this.$destroy()
-  },
   data () {
     return {
       // 控制回复框显示隐藏
@@ -58,6 +61,10 @@ export default {
         com_id: ''
       }
     }
+  },
+  // 避免缓存问题,销毁组件
+  deactivated () {
+    this.$destroy()
   }
 }
 </script>
@@ -68,5 +75,11 @@ export default {
   height: 50px;
   border-radius: 100%;
   margin-right: 10px;
+}
+.add-comment {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 9999;
 }
 </style>

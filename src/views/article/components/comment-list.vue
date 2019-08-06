@@ -50,6 +50,10 @@ export default {
       offset: null
     }
   },
+  // 避免缓存问题,销毁组件
+  deactivated () {
+    this.$destroy()
+  },
   created () {},
   methods: {
     // 点击回复弹出模态框

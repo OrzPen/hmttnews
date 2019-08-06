@@ -16,9 +16,9 @@
       <!-- 评论列表 -->
       <comment-list :source="articleId"></comment-list>
       <!-- 回复组件 -->
-      <reply-list v-model="isShowReply"></reply-list>
+      <reply-list :articleId="articleId"></reply-list>
       <!-- 发布评论 -->
-      <add-comment class="add-comment" :target="articleId" />
+      <add-comment class="add-comment" :target="articleId" :articleId="articleId" />
     </div>
   </div>
 </template>

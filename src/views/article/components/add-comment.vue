@@ -23,6 +23,10 @@ export default {
     target: {
       type: [String, Number],
       required: true
+    },
+    artId: {
+      type: [String, Number],
+      default: null
     }
   },
   methods: {
@@ -30,7 +34,8 @@ export default {
       try {
         await addComment({
           target: this.target,
-          content: this.content
+          content: this.content,
+          artid: this.artId
         })
         this.$toast('发布评论成功')
         this.content = ''
