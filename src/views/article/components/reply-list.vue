@@ -1,7 +1,25 @@
 <template>
 
   <van-popup v-model="isShow" position="bottom" :style="{height:'75%'}">
-
+    <van-cell>
+      <div slot="icon">
+        <img class="avatar" :src="commentTop.aut_photo" alt="">
+      </div>
+      <div slot="title">
+        <span>{{commentTop.aut_name}}</span>
+        <van-tag>楼主</van-tag>
+      </div>
+      <div slot="default">
+        <van-button icon="like-o" size="mini" plain>赞</van-button>
+      </div>
+      <div slot="label">
+        <p>{{commentTop.content}}</p>
+        <p>
+          <span>{{commentTop.pubdate | relTime}}</span>
+        </p>
+      </div>
+    </van-cell>
+    <hr>
   </van-popup>
 </template>
 
@@ -22,6 +40,10 @@ export default {
       this.isShow = true
     })
   },
+  // 避免缓存问题,销毁组件
+  deactivated () {
+    this.$destroy()
+  },
   data () {
     return {
       // 控制回复框显示隐藏
@@ -35,4 +57,10 @@ export default {
 </script>
 
 <style lang='less' scoped>
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+  margin-right: 10px;
+}
 </style>
