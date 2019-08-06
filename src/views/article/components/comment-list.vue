@@ -16,7 +16,7 @@
           <p>
             <span>{{item.pubdate | relTime}}</span>
             ·
-            <span>回复</span>
+            <span @click="isShow(item)">回复</span>
           </p>
         </div>
       </van-cell>
@@ -27,6 +27,7 @@
 <script>
 // 获取评论列表数据api
 import { getComments } from '@/api/comment.js'
+import vm from '@/utils/event-bus.js'
 export default {
   name: 'CommentList',
   props: {},
@@ -41,6 +42,10 @@ export default {
   },
   created () {},
   methods: {
+    // 点击回复弹出模态框
+    isShow (item) {
+      vm.$emit('showReply', item)
+    },
     async onLoad () {
       console.log('onLoad')
       // 根据路由参数传过来的文章id发送请求获取评论列表数据
