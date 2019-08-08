@@ -65,7 +65,19 @@ export default {
         .confirm({
           title: '是否确认修改头像'
         })
-        .then(() => {
+        .then(async () => {
+          // 发送上传头像请求
+          const data = await updateUserPhoto(
+            'photo',
+            this.$refs['input'].files[0]
+          )
+          // 如果后台返回头像地址
+          if (data.photo) {
+            // 关闭头像上传组件
+            this.$emit('input', false)
+            // 将图片地址传到父组件
+            this.$emit('upload-success', data.photo)
+          }
         })
         .catch(() => {})
     }

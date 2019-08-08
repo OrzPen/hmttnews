@@ -16,7 +16,7 @@
       <van-cell is-link title="性别" :value="user.gender === 0 ? '男' : '女'" />
       <van-cell is-link title="生日" :value="user.birthday" />
     </van-cell-group>
-    <upload-photo v-model="isUploadPhotoShow"></upload-photo>
+    <upload-photo v-model="isUploadPhotoShow" @upload-success="handleUploadSuccess"></upload-photo>
   </div>
 </template>
 
@@ -53,6 +53,11 @@ export default {
       } catch (err) {
         this.$toast.fail('加载用户信息失败')
       }
+    },
+    // 把子组件传来的地址显示到头像上
+    handleUploadSuccess (photo) {
+      // console.log(photo)
+      this.user.photo = photo
     }
   }
 }
