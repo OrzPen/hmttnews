@@ -28,8 +28,8 @@ export const followUser = userId => {
 }
 
 /**
-* 取消关注
-*/
+ * 取消关注
+ */
 export const unFollowUser = userId => {
   return $ajax({
     method: 'DELETE',
@@ -80,5 +80,27 @@ export const updateUserProfile = ({
       id_card_handheld: idCardHandheld,
       intro
     }
+  })
+}
+
+/**
+ * 修改头像
+ * photo file 否 头像
+ * id_card_front file 否  身份证正面照片
+ * id_card_back file 否 身份证背面照片
+ * id card handheld file 否  手持身份证照片
+ */
+export const updateUserPhoto = (name, file) => {
+  // 实例化formdata对象
+  const formdata = new FormData()
+
+  // 添加name 和 数据
+  formdata.append(name, file)
+
+  // 当Content-Type 的值 form-data时,此时 把formdata对象传递给data数据
+  return $ajax({
+    method: 'PATCH',
+    url: `/app/v1_0/user/photo`,
+    data: formdata
   })
 }
