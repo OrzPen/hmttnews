@@ -1,6 +1,6 @@
 <template>
 
-  <van-popup v-model="isShow" position="bottom" :style="{height:'75%'}">
+  <van-popup v-model="isShow" position="bottom" :style="{height:'75%'}" >
     <van-cell>
       <div slot="icon">
         <img class="avatar" :src="commentTop.aut_photo" alt="">
@@ -61,6 +61,11 @@ export default {
         com_id: ''
       }
     }
+  },
+  methods: {
+    // fn () {
+    //   this.$destroy()
+    // }
   },
   // 避免缓存问题,销毁组件
   deactivated () {

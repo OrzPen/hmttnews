@@ -40,7 +40,7 @@ export default {
   methods: {
     async handleSave () {
       await updateUserProfile({
-        name: '沈泰鹏到此一游'
+        name: '张宁也不赖'
       })
     },
     async loadUserProfile () {
